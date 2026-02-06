@@ -1,0 +1,14 @@
+name = "cloudflare-forms-worker"
+main = "worker.js"
+compatibility_date = "2024-02-06"
+
+# This is the binding that allows sending emails
+# You must configure this in the Cloudflare Dashboard as well or bind it here if using newer wrangler features
+# But typically for Send Email binding, it's done via Dashboard > Settings > Bindings
+# or locally via `wrangler dev --email` (experimental/limited support)
+
+# For deployment, ensure the 'EMAIL' binding is set up in the dashboard
+# pointing to Cloudflare Email Routing.
+
+[[send_email]]
+name = "EMAIL"
