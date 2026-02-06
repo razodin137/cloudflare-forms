@@ -132,8 +132,8 @@ Submitted: ${new Date().toLocaleString('en-US', {
 
             // REPLACE WITH YOUR ACTUAL VERIFIED DOMAIN EMAIL
             const msg = new EmailMessage(
-                "gerald@buckcreekbungalows.com",
-                "gerald@buckcreekbungalows.com",
+                "contact@yourwebsite.com",
+                "contact@yourwebsite.com",
                 emailBody
             );
 
