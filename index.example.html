@@ -4,67 +4,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Form</title>
+    <title>Contact Form Demo</title>
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        form {
-            display: flex;
-            flex-direction: column;
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .form-container {
+            max-width: 680px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            color: #1a1a2e;
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-section {
+            margin-bottom: 1.75rem;
+            padding-bottom: 1.75rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #764ba2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
         }
 
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
         label {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            display: block;
             font-weight: 500;
+            color: #333;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
         }
 
-        input,
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="number"],
+        input[type="url"],
+        select,
         textarea {
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
             font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            background: #fafafa;
         }
 
-        button {
-            background-color: #0070f3;
-            color: white;
-            padding: 0.75rem;
-            border: none;
-            border-radius: 4px;
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #f5f5f5;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
+            transition: all 0.2s ease;
         }
 
-        button:hover {
-            background-color: #0051a2;
+        .checkbox-item:hover,
+        .radio-item:hover {
+            background: #ede9fe;
+        }
+
+        .checkbox-item input,
+        .radio-item input {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: #e0e0e0;
+            accent-color: #667eea;
+        }
+
+        .range-value {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 2.5rem;
+            text-align: center;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .status-message {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status-message.success {
+            display: block;
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-message.error {
+            display: block;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .required::after {
+            content: ' *';
+            color: #e53e3e;
         }
     </style>
 </head>
 
 <body>
-    <h1>Contact Us</h1>
-    <!-- Replace the action URL with your actual Worker URL -->
-    <form action="{{WORKER_URL}}" method="POST">
-        <label>
-            Name:
-            <input type="text" name="name" required>
-        </label>
-        <label>
-            Message:
-            <textarea name="message" rows="5" required></textarea>
-        </label>
-        <button type="submit">Send</button>
-    </form>
+    <div class="form-container">
+        <h1>Contact Us</h1>
+        <p class="subtitle">We'd love to hear from you. Fill out the form below and we'll get back to you soon.</p>
+
+        <form id="contactForm">
+            <!-- Hidden subject field -->
+            <input type="hidden" name="_subject" value="New Website Inquiry">
+
+            <!-- Personal Information -->
+            <div class="form-section">
+                <div class="section-title">Your Information</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName" class="required">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName" class="required">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email" class="required">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="company">Company / Organization</label>
+                    <input type="text" id="company" name="company">
+                </div>
+            </div>
+
+            <!-- Inquiry Details -->
+            <div class="form-section">
+                <div class="section-title">Inquiry Details</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="inquiryType" class="required">Inquiry Type</label>
+                        <select id="inquiryType" name="inquiryType" required>
+                            <option value="">Select an option...</option>
+                            <option value="General Question">General Question</option>
+                            <option value="Booking Request">Booking Request</option>
+                            <option value="Pricing Information">Pricing Information</option>
+                            <option value="Partnership">Partnership Opportunity</option>
+                            <option value="Feedback">Feedback</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="preferredDate">Preferred Contact Date</label>
+                        <input type="date" id="preferredDate" name="preferredDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="budget">Budget Range</label>
+                    <select id="budget" name="budget">
+                        <option value="">Select budget range...</option>
+                        <option value="Under $500">Under $500</option>
+                        <option value="$500 - $1,000">$500 - $1,000</option>
+                        <option value="$1,000 - $5,000">$1,000 - $5,000</option>
+                        <option value="$5,000+">$5,000+</option>
+                        <option value="Not Sure">Not Sure</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Preferences (Checkboxes) -->
+            <div class="form-section">
+                <div class="section-title">Interests</div>
+                <div class="form-group">
+                    <label>What are you interested in? (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="Property Tours">
+                            Property Tours
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="Long-term Stays">
+                            Long-term Stays
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="Events & Weddings">
+                            Events & Weddings
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="Corporate Retreats">
+                            Corporate Retreats
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="interests" value="Pet-Friendly Options">
+                            Pet-Friendly
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Preference (Radio) -->
+            <div class="form-section">
+                <div class="section-title">Contact Preference</div>
+                <div class="form-group">
+                    <label>How would you prefer to be contacted?</label>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="contactMethod" value="Email" checked>
+                            Email
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="contactMethod" value="Phone Call">
+                            Phone Call
+                        </label>
+                        <label class="radio-item">
+                            <input type="radio" name="contactMethod" value="Text Message">
+                            Text Message
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Party Size</label>
+                    <div class="range-container">
+                        <input type="range" id="partySize" name="partySize" min="1" max="20" value="2">
+                        <span class="range-value" id="partySizeValue">2</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-section">
+                <div class="section-title">Your Message</div>
+                <div class="form-group">
+                    <label for="message" class="required">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us more about your inquiry..."
+                        required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="website">Your Website (optional)</label>
+                    <input type="url" id="website" name="website" placeholder="https://example.com">
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn">Send Message</button>
+            <div class="status-message" id="statusMessage"></div>
+        </form>
+    </div>
+
+    <script>
+        // Update range slider display
+        const partySize = document.getElementById('partySize');
+        const partySizeValue = document.getElementById('partySizeValue');
+        partySize.addEventListener('input', () => {
+            partySizeValue.textContent = partySize.value;
+        });
+
+        // Form submission
+        const form = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // REPLACE with your deployed Cloudflare Worker URL
+        const WORKER_URL = 'https://your-worker.your-subdomain.workers.dev';
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Gather form data
+            const formData = new FormData(form);
+            const data = {};
+
+            for (const [key, value] of formData.entries()) {
+                // Handle multiple values (checkboxes)
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            statusMessage.className = 'status-message';
+            statusMessage.style.display = 'none';
+
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusMessage.textContent = '✓ Message sent successfully! We\'ll be in touch soon.';
+                    statusMessage.className = 'status-message success';
+                    form.reset();
+                    partySizeValue.textContent = '2';
+                } else {
+                    throw new Error(result.error || 'Something went wrong');
+                }
+            } catch (error) {
+                statusMessage.textContent = '✗ ' + error.message;
+                statusMessage.className = 'status-message error';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }
+        });
+    </script>
 </body>
 
 </html>
