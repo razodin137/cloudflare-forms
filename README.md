@@ -28,12 +28,23 @@ npx wrangler deploy
 > - `sender`: Must be an address on your verified domain (e.g., `forms@yourdomain.com`).
 > - `recipient`: Must be a verified destination address.
 
-### 4. Update Form
-Open `index.html` and update the form action URL:
-```html
-<form action="https://your-worker-name.your-subdomain.workers.dev" method="POST">
-```
-Replace it with your actual Worker URL.
+### 4. Create the Form
+1.  Copy `index.example.html` to `index.html`:
+    ```bash
+    cp index.example.html index.html
+    ```
+2.  Open `index.html` and replace `{{WORKER_URL}}` with your actual Worker URL:
+    ```html
+    <form action="https://your-worker-name.your-subdomain.workers.dev" method="POST">
+    ```
+
+> **Note:** `index.html` is in `.gitignore` to prevent your private Worker URL from being committed to the repository.
 
 ### 5. Test
 Open `index.html` in your browser, fill out the form, and submit. You should receive an email in your verified destination inbox.
+
+## Project Structure
+- `index.example.html`: The HTML template with the form.
+- `index.html`: Your local form file (do not commit).
+- `worker.js`: The Cloudflare Worker logic.
+- `.env`: (Optional) Stores environment variables.

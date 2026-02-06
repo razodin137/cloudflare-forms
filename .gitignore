@@ -1,0 +1,9 @@
+
+# Secrets
+.env
+
+# Generated files
+index.html
+
+# Dependencies
+node_modules/
